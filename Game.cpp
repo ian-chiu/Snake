@@ -2,6 +2,8 @@
 #include <iostream>
 #include <vector>
 #include <cstdlib>
+#include <chrono>
+#include <thread>
 #include <ncurses.h>
 using namespace std;
 
@@ -19,7 +21,6 @@ void Game::render()
     for(auto pos : snake.get_body())
     {
         int row = pos[1]+1, col = pos[0]+1;
-        //cout << row << " " << col << endl;
         if(pos == snake.get_body()[0])
         {
             matrix[row][col] = 'X';
@@ -27,19 +28,6 @@ void Game::render()
         else
             matrix[row][col] = 'O';
     }
-    // have problem, dont understand
-    // for(auto itr = snake.get_body().begin(); 
-    //     itr != snake.get_body().end(); ++itr)
-    // {
-    //     int row = (*itr)[1]+1, col = (*itr)[0]+1;
-    //     cout << (*itr)[0] << " " << (*itr)[1] << endl;
-    //     if(itr == snake.get_body().begin())
-    //     {
-    //         matrix[row][col] = 'X';
-    //     }
-    //     else
-    //         matrix[row][col] = 'O';
-    // }
 
     // print the board - reverse the print so (0,0) is at the left down corner
     for(int row_idx = matrix.size()-1; row_idx >= 0; row_idx--)
@@ -71,7 +59,7 @@ Game::board_type Game::board_matrix()
     return board;
 }
 
-void Game::pilot_snake(istream &is)
+void Game::pilot_snake()
 {
     int ctrl{};
     ctrl = getch();
@@ -94,9 +82,28 @@ void Game::pilot_snake(istream &is)
         snake.set_direction(RIGHT);
         new_head_pos[0]++;
         break;
-    default:
-        return;
+    case ERR:
+        if(snake.get_direciton() == UP)
+            new_head_pos[1]++;
+        if(snake.get_direciton() == LEFT)
+            new_head_pos[0]--;
+        if(snake.get_direciton() == DOWN)
+            new_head_pos[1]--;
+        if(snake.get_direciton() == RIGHT)
+            new_head_pos[0]++;
+        sleep(250);
     }
+    slither(new_head_pos);
+}
+
+void Game::sleep(int millisec)
+{
+    std::this_thread::sleep_for(std::chrono::milliseconds(millisec));
+}
+
+void Game::slither(tup2 new_head_pos)
+{
+
     //wrap the wall 
     if(new_head_pos[0] > scr_width - 3)
         new_head_pos[0] = 0;

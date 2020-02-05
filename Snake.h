@@ -19,6 +19,7 @@ public:
 
     // interface
     body_t get_body() { return body; }
+    tup2 get_direciton() { return direction; }
     void extend_body();
     void set_direction(tup2 dir) { direction = dir; }
     void take_step(tup2 );

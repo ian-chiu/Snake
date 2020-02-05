@@ -13,7 +13,7 @@ int main()
     while(!myGame.game_over())
     {
         myGame.render();
-        myGame.pilot_snake(cin);
+        myGame.pilot_snake();
         if(myGame.eat_apple())
         {
             myGame.gain_point();
@@ -34,5 +34,6 @@ void initial()                     /* 自定開啟 curses 函式 */
     noecho();
     intrflush(stdscr,FALSE);
     keypad(stdscr,TRUE);
+    nodelay(stdscr, TRUE);
     refresh();
 }

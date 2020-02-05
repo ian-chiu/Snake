@@ -18,10 +18,11 @@ public:
     void gain_point() { score++; }
     void render();
     board_type board_matrix();
-    void pilot_snake(std::istream &);
+    void pilot_snake();
     bool game_over();
     bool eat_apple();
     void produce_apple();
+    void slither(tup2 pos);
 
     // directions
     tup2 UP{0, 1}, DOWN{0, -1};
@@ -35,4 +36,5 @@ private:
     Snake snake;
     tup2 apple_pos;
     unsigned score;
+    void sleep(int );
 };
