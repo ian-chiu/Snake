@@ -2,13 +2,14 @@
 #include <iostream>
 #include <vector>
 #include <cstdlib>
+#include <ncurses.h>
 using namespace std;
 
 void Game::render()
 {
-    system("clear");
+    clear();
     board_type matrix = board_matrix();
-    cout << "Score: " << score << endl;
+    printw("Score: %d\n", score);
 
     //set apple position
     int a_row = apple_pos[1], a_col = apple_pos[0];
@@ -44,8 +45,8 @@ void Game::render()
     for(int row_idx = matrix.size()-1; row_idx >= 0; row_idx--)
     {
         for(auto c : matrix[row_idx])
-            cout << c;
-        cout << endl;
+            addch(c);
+        addch('\n');
         if(row_idx == 0) //prevent out of array problem
             break;
     }         
@@ -72,24 +73,24 @@ Game::board_type Game::board_matrix()
 
 void Game::pilot_snake(istream &is)
 {
-    char ctrl{};
-    is >> ctrl;
+    int ctrl{};
+    ctrl = getch();
     tup2 new_head_pos = snake.head();
     switch(ctrl)
     {
-    case 'w': case 'W':
+    case 119: //w
         snake.set_direction(UP);
         new_head_pos[1]++;
         break;
-    case 'a': case 'A':
+    case 97: //a
         snake.set_direction(LEFT);
         new_head_pos[0]--;
         break;
-    case 's': case 'S':
+    case 115: //s
         snake.set_direction(DOWN);
         new_head_pos[1]--;
         break;
-    case 'd': case 'D':
+    case 100: //d
         snake.set_direction(RIGHT);
         new_head_pos[0]++;
         break;

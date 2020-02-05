@@ -1,11 +1,15 @@
 #include <iostream>
 #include "Snake.h"
 #include "Game.h"
+#include <ncurses.h>
 using namespace std;
+
+void initial();
 
 int main()
 {
     Game myGame;
+    initial();
     while(!myGame.game_over())
     {
         myGame.render();
@@ -18,5 +22,17 @@ int main()
         }            
     }
     cout << "GAME OVER" << endl;
+    endwin();
     return 0;
+}
+
+void initial()                     /* 自定開啟 curses 函式 */
+{
+    initscr();
+    cbreak();
+    nonl();
+    noecho();
+    intrflush(stdscr,FALSE);
+    keypad(stdscr,TRUE);
+    refresh();
 }
