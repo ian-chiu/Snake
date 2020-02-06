@@ -23,6 +23,7 @@ public:
     bool eat_apple();
     void produce_apple();
     void slither(tup2 pos);
+    //TODO: leaderboard
 
     // directions
     tup2 UP{0, 1}, DOWN{0, -1};

@@ -125,6 +125,7 @@ bool Game::game_over()
     return false;
 }
 
+//TODO: produce apple where snake is not on
 void Game::produce_apple()
 {
     int rand_x = rand() % (scr_width-3) + 1;
