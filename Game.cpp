@@ -1,10 +1,10 @@
 #include "Game.h"
-#include <iostream>
-#include <vector>
 #include <cstdlib>
 #include <chrono>
 #include <thread>
 #include <ncurses.h>
+#include <fstream>
+#include <sstream>
 using namespace std;
 
 void Game::render()
@@ -82,7 +82,7 @@ void Game::pilot_snake()
         snake.set_direction(RIGHT);
         new_head_pos[0]++;
         break;
-    case ERR:
+    default:
         if(snake.get_direciton() == UP)
             new_head_pos[1]++;
         if(snake.get_direciton() == LEFT)
@@ -119,7 +119,7 @@ void Game::slither(tup2 new_head_pos)
 
 bool Game::game_over()
 {
-    for(int idx = 1; idx < snake.get_body().size(); ++idx)
+    for(size_t idx = 1; idx < snake.get_body().size(); ++idx)
         if(snake.head() == snake.get_body()[idx])
             return true;
     return false;
@@ -141,3 +141,56 @@ bool Game::eat_apple()
     else
         return false;
 }
+
+std::string getstring()
+{
+    string input;
+    nocbreak();
+    echo();
+    int ch = getch();
+    while ( ch != '\n' )
+    {
+        input.push_back( ch );
+        ch = getch();
+    }
+    return input;
+}
+
+void Game::memu()
+{
+    printw("\t\t-----------WELCOME TO-----------\n");
+    printw("\t\t ___ _ __   __ _| | _____  ___ \n");
+    printw("\t\t/ __| '_ \\ / _` | |/ / _ \\/ __|\n");
+    printw("\t\t\\__ \\ | | | (_| |   <  __/\\__ \\\n");
+    printw("\t\t|___/_| |_|\\__,_|_|\\_\\___||___/\n");
+    printw("\n\t\tEnter your name: ");
+    player_name = getstring();
+    printw("\t\tPress any button to start...");
+    getch();
+}
+
+void Game::write_record()
+{
+    ofstream record("leaderboard.txt", ofstream::app);
+    record << player_name << " " << score << endl;
+}
+
+void Game::print_leader_board()
+{
+    ifstream record("leaderboard.txt");
+    string line, name, score;
+    cout << "\t\t--------LEADER BOARD--------\n";
+    cout << "\t\tPLAYER\t\tSCORE\n";
+    cout << "\t\t----------------------------\n";
+    while(getline(record, line))
+    {
+        istringstream data(line);
+        data >> name >> score;
+        cout << "\t\t" << name << "\t\t" << score << endl;
+    }
+    cin.ignore(1024, '\n');
+    cout << "Press any button to continue...";
+    cin.get();
+
+}
+

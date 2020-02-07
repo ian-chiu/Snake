@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <iostream>
+#include <string>
 #include "Snake.h"
 
 class Game
@@ -9,9 +10,9 @@ class Game
 public:
     using board_type = std::vector<std::vector<char>>;
     //constructors
-    Game(int w, int h, tup2 a, unsigned s): 
+    Game(int w, int h, tup2 a, unsigned s, std::string player_name): 
         scr_width(w), scr_height(h), apple_pos({w/2, h/2}), score(s) {}
-    Game(): Game(30, 20, {scr_width/2, scr_height/2}, 0) {}
+    Game(): Game(30, 20, {scr_width/2, scr_height/2}, 0, "") {}
 
     // interface
     Snake& get_snake() { return snake; }
@@ -24,6 +25,9 @@ public:
     void produce_apple();
     void slither(tup2 pos);
     //TODO: leaderboard
+    void memu();
+    void write_record();
+    void print_leader_board();
 
     // directions
     tup2 UP{0, 1}, DOWN{0, -1};
@@ -34,6 +38,7 @@ public:
 private:
     int scr_width;
     int scr_height;
+    std::string player_name;
     Snake snake;
     tup2 apple_pos;
     unsigned score;
