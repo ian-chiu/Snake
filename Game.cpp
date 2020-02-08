@@ -244,7 +244,7 @@ void Game::print_leader_board()
         data >> name >> score;
         cout << "\t\t" << name << "\t\t" << score << endl;
     }
-    cout << "Press any button to continue...";
+    cout << "Press ENTER to continue...";
     cin.get();
 }
 
