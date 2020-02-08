@@ -10,6 +10,10 @@ int main()
 {
     Game myGame;
     initial();
+    myGame.memu();
+    cbreak();
+    noecho();
+    nodelay(stdscr, TRUE);
     while(!myGame.game_over())
     {
         myGame.render();
@@ -21,19 +25,21 @@ int main()
             myGame.get_snake().extend_body();
         }            
     }
-    cout << "GAME OVER" << endl;
+    nodelay(stdscr, FALSE);
+    printw("GAME OVER...");
+    getch();
     endwin();
+    myGame.load_leaders();
+    myGame.write_record();
+    myGame.print_leader_board();
     return 0;
 }
 
 void initial()                     /* 自定開啟 curses 函式 */
 {
     initscr();
-    cbreak();
     nonl();
-    noecho();
     intrflush(stdscr,FALSE);
     keypad(stdscr,TRUE);
-    nodelay(stdscr, TRUE);
     refresh();
 }
