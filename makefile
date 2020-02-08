@@ -1,5 +1,5 @@
 all: main.cpp
-	g++ *.cpp -lcurses -o main.exe
+	g++ *.cpp -lcurses 
 
 clean:
 	rm -f main.exe

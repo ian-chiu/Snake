@@ -7,6 +7,14 @@
 #include <sstream>
 using namespace std;
 
+struct Player
+{
+    int score{};
+    string name{};
+};
+
+vector<Player> topliners{};
+
 void Game::render()
 {
     clear();
@@ -169,17 +177,65 @@ void Game::memu()
     getch();
 }
 
+void Game::load_leaders()
+{
+    ifstream record("leaderboard.txt");
+    string line, name;
+    unsigned score;
+    while(getline(record, line))
+    {
+        Player topliner;
+        istringstream data(line);
+        data >> name >> score;
+        //leaders[name] = score;
+        topliner.name = name;
+        topliner.score = score;
+        topliners.push_back(topliner);
+    }
+}
+
 void Game::write_record()
 {
-    ofstream record("leaderboard.txt", ofstream::app);
-    record << player_name << " " << score << endl;
-}
+    Player game_player;
+    game_player.name = player_name;
+    game_player.score = score;
+    if(topliners.size() < 10)
+    {
+        auto itr = topliners.begin();
+        for( ; itr != topliners.end(); itr++)
+        {
+            if(itr->score <= score - 1)
+                break;
+        }
+        ofstream debug("debug.txt");
+        debug << itr->name << endl;
+        topliners.insert(itr, game_player);
+        ofstream record("leaderboard.txt");
+        for(auto topliner : topliners)
+            record << topliner.name << " " << topliner.score << endl;
+    }
+    else
+    {
+        auto itr = topliners.begin();
+        for( ; itr != topliners.end(); itr++)
+        {
+            if(itr->score <= score - 1)
+                break;
+        }
+        topliners.insert(itr, game_player);
+        topliners.erase(topliners.end()--);
+        ofstream record("leaderboard.txt");
+        for(auto topliner : topliners)
+            record << topliner.name << " " << topliner.score << endl;
+    }
+    
+}    
 
 void Game::print_leader_board()
 {
     ifstream record("leaderboard.txt");
     string line, name, score;
-    cout << "\t\t--------LEADER BOARD--------\n";
+    cout << "\t\t-----LEADER BOARD(TOP 10)-----\n";
     cout << "\t\tPLAYER\t\tSCORE\n";
     cout << "\t\t----------------------------\n";
     while(getline(record, line))
@@ -188,9 +244,7 @@ void Game::print_leader_board()
         data >> name >> score;
         cout << "\t\t" << name << "\t\t" << score << endl;
     }
-    cin.ignore(1024, '\n');
     cout << "Press any button to continue...";
     cin.get();
-
 }
 

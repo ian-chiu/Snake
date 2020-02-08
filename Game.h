@@ -3,6 +3,7 @@
 #include <vector>
 #include <iostream>
 #include <string>
+#include <map>
 #include "Snake.h"
 
 class Game
@@ -10,7 +11,7 @@ class Game
 public:
     using board_type = std::vector<std::vector<char>>;
     //constructors
-    Game(int w, int h, tup2 a, unsigned s, std::string player_name): 
+    Game(int w, int h, tup2 a, int s, std::string player_name): 
         scr_width(w), scr_height(h), apple_pos({w/2, h/2}), score(s) {}
     Game(): Game(30, 20, {scr_width/2, scr_height/2}, 0, "") {}
 
@@ -28,6 +29,7 @@ public:
     void memu();
     void write_record();
     void print_leader_board();
+    void load_leaders();
 
     // directions
     tup2 UP{0, 1}, DOWN{0, -1};
@@ -41,6 +43,6 @@ private:
     std::string player_name;
     Snake snake;
     tup2 apple_pos;
-    unsigned score;
+    int score;
     void sleep(int );
 };

@@ -29,8 +29,9 @@ int main()
     printw("GAME OVER...");
     getch();
     endwin();
-    myGame.print_leader_board();
+    myGame.load_leaders();
     myGame.write_record();
+    myGame.print_leader_board();
     return 0;
 }
 
