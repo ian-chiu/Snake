@@ -171,6 +171,7 @@ void Game::memu()
     printw("\t\t/ __| '_ \\ / _` | |/ / _ \\/ __|\n");
     printw("\t\t\\__ \\ | | | (_| |   <  __/\\__ \\\n");
     printw("\t\t|___/_| |_|\\__,_|_|\\_\\___||___/\n");
+    printw("\n\t\t     USING W A S D TO MOVE\n");
     printw("\n\t\tEnter your name: ");
     player_name = getstring();
     printw("\t\tPress any button to start...");
