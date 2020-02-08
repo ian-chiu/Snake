@@ -13,7 +13,7 @@ public:
     //constructors
     Game(int w, int h, tup2 a, int s, std::string player_name): 
         scr_width(w), scr_height(h), apple_pos({w/2, h/2}), score(s) {}
-    Game(): Game(30, 20, {scr_width/2, scr_height/2}, 0, "") {}
+    Game(): Game(23, 15, {scr_width/2, scr_height/2}, 0, "") {}
 
     // interface
     Snake& get_snake() { return snake; }
